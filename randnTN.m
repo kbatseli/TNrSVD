@@ -25,7 +25,7 @@ for i=1:d-1
     OTN.n(i+1,1)=r;
 end
 for i=1:d
-   OTN.core{i}=reshape(randn(ATN.n(i,:)),ATN.n(i,:)); 
+   OTN.core{i}=reshape(randn(OTN.n(i,:)),OTN.n(i,:)); 
 end
 
 end
