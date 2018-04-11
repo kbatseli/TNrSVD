@@ -6,9 +6,17 @@ Computes an SVD low-rank approximation of a given matrix in the MPO (Tensor Trai
 1. Functions
 ------------
 
+* demo
+
+Gives a short explanation on how to use the code by means of the Erdos972 matrix from The University of Florida Sparse Matrix Collection.
+
 * [UTN,S,VTN]=TNrSVD(ATN,k,q,tol)
 
-Computes a *k*-rank approximation of given matrix *A* in MPO-form *ATN* using a randomized SVD algorithm. Both orthogonal matrices *U* and *V* are computed directly in MPO-form, *q* represents the exponent in the subspace iteration (*A*^T**A*)^*q* and *tol* is a relative tolerance used for the SVD-based MPO-rounding.
+Computes a *k/2*-rank approximation of given matrix *A* in MPO-form *ATN* using a randomized SVD algorithm. Both orthogonal matrices *U* and *V* are computed directly in MPO-form, *q* represents the exponent in the subspace iteration (*A*^T**A*)^*q* and *tol* is a relative tolerance used for the SVD-based MPO-rounding.
+
+* [UTN,S,VTN,err]=qTNrSVD(ATN,k,roundtol,relerrortol)
+
+Computes a *k/2*-rank approximation of given matrix *A* in MPO-form *ATN* using a *q*-adaptive randomized SVD algorithm. Both orthogonal matrices *U* and *V* are computed directly in MPO-form, *roundtol* is a relative tolerance used for the SVD-based MPO-rounding and *relerrortol* is the desired approximate relative error of the computed singular values.
 
 * TN=matrix2mpo(A,n)
 

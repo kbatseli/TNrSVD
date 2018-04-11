@@ -33,9 +33,9 @@ OTN=randnTN(n);
 YTN=AwithO(ATN,OTN);
 [QTN,~]=qrTN(YTN,tol); % qrTN does the rounding
 for i=1:q
-    QTN=contractab(QTN,ATN,[2 2]); 
+    QTN=contractab(ATN,QTN,[2 2]); 
     [QTN,~]=qrTN(QTN,tol);
-    QTN=contractab(QTN,ATN,[2 3]);
+    QTN=contractab(ATN,QTN,[3 2]);
     [QTN,~]=qrTN(QTN,tol);    
 end
 BTN=QtwithA(QTN,ATN); 

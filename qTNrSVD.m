@@ -1,4 +1,4 @@
-function [UTN,S,VTN]=qTNrSVD(ATN,k,roundtol,relerrortol)
+function [UTN,S,VTN,err]=qTNrSVD(ATN,k,roundtol,relerrortol)
 % [UTN,S,VTN]=TNrSVD(ATN,k,roundtol,relerrortol)
 % ----------------------------------------------
 % Computes a k-rank approximation of a given matrix in MPO-form ATN 
@@ -35,18 +35,26 @@ BTN=QtwithA(QTN,ATN);
 sprev=zeros(k,1);
 s=diag(S);
 q=0;
-err=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(1)^2);
-while err > relerrortol
+err(q+1,1)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2));
+err(q+1,2)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(k/2)^2);
+err(q+1,3)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(1)^2);
+% UTN=cmodeprod(QTN,U',3,1); % scaling of first core
+% test=contractab(ATN,UTN,[3,2]);AtU=contract(test);
+% test=cmodeprod(VTN,S,2,1);VS=contract(test)';
+% err=norm(AtU(:)-VS(:))/norm(S(:));
+while err(q+1,2) > relerrortol
     q=q+1;
-    QTN=contractab(QTN,ATN,[2 2]); 
+    QTN=contractab(ATN,QTN,[2,2]); 
     [QTN,~]=qrTN(QTN,roundtol);
-    QTN=contractab(QTN,ATN,[2 3]);
+    QTN=contractab(ATN,QTN,[3,2 ]);
     [QTN,~]=qrTN(QTN,roundtol);   
     BTN=QtwithA(QTN,ATN); 
     [U,S,VTN]=svdTN(BTN,roundtol); %svdTN does the rounding
     sprev=s;
     s=diag(S);
-    err=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(1)^2);
+    err(q+1,1)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2));
+    err(q+1,2)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(k/2)^2);
+    err(q+1,3)=max( abs(s(1:k/2).^2-sprev(1:k/2).^2)/s(1)^2);
 end
 UTN=cmodeprod(QTN,U',3,1); % scaling of first core
 end
